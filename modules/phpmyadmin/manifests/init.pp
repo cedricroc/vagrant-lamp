@@ -1,4 +1,5 @@
 class phpmyadmin {
+  
   # Install phpMyAdmin
   package { "phpmyadmin":
     ensure => latest,
@@ -11,5 +12,13 @@ class phpmyadmin {
     ensure  => present,
     source  => '/etc/phpmyadmin/apache.conf',
     require => Package['apache2', 'phpmyadmin']
+  }
+
+  file { "/etc/phpmyadmin/config.inc.php":
+    owner  => root,
+    group  => root,
+    mode   => 0755,
+    source => "puppet:///modules/phpmyadmin/config.inc.php",
+    require => Package["phpmyadmin"],
   }
 }
